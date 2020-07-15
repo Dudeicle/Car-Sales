@@ -1,4 +1,4 @@
-import { ADD_FEATURE } from '../actions/featureActions.js';
+import { ADD_FEATURE_PRICE_REMOVE_FEATURE, X_OUT_FEATURE } from '../actions/featureActions.js';
 
 
 export const initialState = {
@@ -18,23 +18,46 @@ export const initialState = {
     ]
   };
 
+
+
 export const reducer = (state = initialState, action) => {
+
+  function isAdded(){
+    if (state.car.features === action.payload){
+      
+    }
+  }
     console.log(state)
     switch (action.type) {
-        case ADD_FEATURE:
+        case ADD_FEATURE_PRICE_REMOVE_FEATURE:
             return {
+                // BELOW IS ADDING A FEATURE TO THE LEFT PANEL
                 ...state,
-                car: {
+                  car: {
                     ...state.car,
                     features: [...state.car.features, action.payload]
-                }
-                // additionalPrice: state.additionalPrice + action.payload.price,
+                  },
+                // BELOW IS ADDING THE ADDED FEATURE'S PRICE TO THE TOTAL
+                  additionalPrice: state.additionalPrice + action.payload.price,
+                // BELOW IS REMOVING A FEATURE FROM THE RIGHT PANEL
+                  additionalFeatures: state.additionalFeatures.filter(function(el) { return el.id !== action.payload })
             };
+        case X_OUT_FEATURE:
+          return {
+              // BELOW IS REMOVING AN ADDED FEATURE
+              ...state,
+                car: {
+                  ...state.car,
+                  features: state.features - action.paylod
+                },
+              // BELOW IS ADDING THE ADDED FEATURE'S PRICE TO THE TOTAL
+              additionalPrice: state.additionalPrice + action.payload.price,
+              // BELOW IS REMOVING A FEATURE FROM THE RIGHT PANEL
+                additionalFeatures: state.additionalFeatures - action.payload  
+          }
                 
-
         
         default:
-          console.log(state)
             return state;
     }
 }
