@@ -22,11 +22,6 @@ export const initialState = {
 
 export const reducer = (state = initialState, action) => {
 
-  function isAdded(){
-    if (state.car.features === action.payload){
-      
-    }
-  }
     console.log(state)
     switch (action.type) {
         case ADD_FEATURE_PRICE_REMOVE_FEATURE:
@@ -40,21 +35,21 @@ export const reducer = (state = initialState, action) => {
                 // BELOW IS ADDING THE ADDED FEATURE'S PRICE TO THE TOTAL
                   additionalPrice: state.additionalPrice + action.payload.price,
                 // BELOW IS REMOVING A FEATURE FROM THE RIGHT PANEL
-                  additionalFeatures: state.additionalFeatures.filter(function(el) { return el.id !== action.payload })
+                  additionalFeatures: state.additionalFeatures.filter(item => item.id !== action.payload.id )
             };
         case X_OUT_FEATURE:
-          return {
-              // BELOW IS REMOVING AN ADDED FEATURE
-              ...state,
-                car: {
-                  ...state.car,
-                  features: state.features - action.paylod
-                },
-              // BELOW IS ADDING THE ADDED FEATURE'S PRICE TO THE TOTAL
-              additionalPrice: state.additionalPrice + action.payload.price,
-              // BELOW IS REMOVING A FEATURE FROM THE RIGHT PANEL
-                additionalFeatures: state.additionalFeatures - action.payload  
-          }
+            return {
+                // BELOW IS REMOVING AN ADDED FEATURE
+                ...state,
+                  car: {
+                    ...state.car,
+                    features: state.car.features.filter(item => item.id !== action.payload.id )
+                  },
+                // BELOW IS ADDING THE ADDED FEATURE'S PRICE TO THE TOTAL
+                  additionalPrice: state.additionalPrice - action.payload.price,
+                // BELOW IS REMOVING A FEATURE FROM THE RIGHT PANEL
+                  additionalFeatures: [...state.additionalFeatures, action.payload]
+            };
                 
         
         default:
